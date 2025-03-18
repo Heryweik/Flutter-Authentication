@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "608285929779",
+    "project_id": "ejemplo-login-6b785",
+    "storage_bucket": "ejemplo-login-6b785.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608285929779:android:66d678d63bc628f4104e46",
+        "android_client_info": {
+          "package_name": "com.example.login_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrexRuNDgCCFxRzDa0Vr-JIYUqfXivnQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
