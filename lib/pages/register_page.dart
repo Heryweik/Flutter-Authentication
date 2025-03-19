@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:login_chat/config/responsive_designe.dart';
 import 'package:login_chat/consts.dart';
 import 'package:login_chat/models/user_profile.dart';
 import 'package:login_chat/services/alert_service.dart';
@@ -56,7 +57,29 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       resizeToAvoidBottomInset:
           false, // Para evitar que el teclado haga resize de la pantalla
-      body: _buildUI(),
+      body: ResponsiveWidget(
+        // ResponsiveWidget para hacer la pantalla responsive
+        mobile: _buildMobileUI(),
+        tablet: _buildTabletUI(),
+        desktop: _buildDesktopUI(),
+      ),
+    );
+  }
+
+  Widget _buildMobileUI() {
+    return _buildUI();
+  }
+
+  Widget _buildTabletUI() {
+    return _buildUI();
+  }
+
+  Widget _buildDesktopUI() {
+     return Center(
+      child: SizedBox(
+        width: 500.0,
+        child: _buildUI(),
+      ),
     );
   }
 
@@ -177,7 +200,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
 
   Widget _registerButton() {
     return SizedBox(

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:login_chat/config/responsive_designe.dart';
 import 'package:login_chat/consts.dart';
 import 'package:login_chat/services/media_service.dart';
 
@@ -37,7 +38,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       resizeToAvoidBottomInset:
           false, // Para evitar que el teclado haga resize de la pantalla
-      body: _buildUI(),
+      body: ResponsiveWidget(
+        // ResponsiveWidget para hacer la pantalla responsive
+        mobile: _buildMobileUI(),
+        tablet: _buildTabletUI(),
+        desktop: _buildDesktopUI(),
+      ),
     );
   }
 
@@ -100,6 +106,17 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Widget _buildMobileUI() {
+    return _buildUI();
+  }
+
+  Widget _buildTabletUI() {
+    return _buildUI();
+  }
+
+  Widget _buildDesktopUI() {
+    return _buildUI();
+  }
 
   Widget _buildUI() {
     return SafeArea(
@@ -128,35 +145,44 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-    Widget _pfpSelectionField() {
-    // pfp es por profile picture
-    return GestureDetector(
-      onTap: () {
-        // onTap para manejar el evento de presionar el campo
-        _showImageOptions(); // Muestra el modal con las opciones de la cámara y la galería
-      },
-      child: CircleAvatar(
-        // CircleAvatar para mostrar la imagen de perfil
-        radius:
-            MediaQuery.of(context).size.width *
-            0.15, // Toma el 15% de la pantalla
-        backgroundImage:
-            selectedImage != null
-                ? FileImage(
-                  selectedImage!,
-                ) // Si la imagen es diferente de null, entonces muestra la imagen seleccionada
-                : NetworkImage(
-                      PLACEHOLDER_PFP,
-                    ) // De lo contrario muestra una imagen por defecto
-                    as ImageProvider, // as ImageProvider para decirle al lenguaje que es una imagen
-        child:
-            selectedImage ==
-                    null // Si la imagen es null, entonces muestra el icono de la cámara
-                ? Icon(Icons.camera_alt, size: 30.0, color: Colors.grey[800])
-                : null,
+Widget _pfpSelectionField() {
+  // pfp es por profile picture
+  return GestureDetector(
+    onTap: () {
+      // onTap para manejar el evento de presionar el campo
+      _showImageOptions(); // Muestra el modal con las opciones de la cámara y la galería
+    },
+    child: ResponsiveWidget( // ResponsiveWidget para hacer el campo responsive directamente en el widget
+      mobile: CircleAvatar(
+        radius: MediaQuery.of(context).size.width * 0.15, // 15% en móviles
+        backgroundImage: selectedImage != null
+            ? FileImage(selectedImage!) // Si hay una imagen seleccionada, muestra esa imagen
+            : NetworkImage(PLACEHOLDER_PFP) as ImageProvider, // De lo contrario, muestra una imagen por defecto
+        child: selectedImage == null
+            ? Icon(Icons.camera_alt, size: 30.0, color: Colors.grey[800])
+            : null,
       ),
-    );
-  }
+      tablet: CircleAvatar(
+        radius: MediaQuery.of(context).size.width * 0.1, // 10% en tablets
+        backgroundImage: selectedImage != null
+            ? FileImage(selectedImage!)
+            : NetworkImage(PLACEHOLDER_PFP) as ImageProvider,
+        child: selectedImage == null
+            ? Icon(Icons.camera_alt, size: 30.0, color: Colors.grey[800])
+            : null,
+      ),
+      desktop: CircleAvatar(
+        radius: MediaQuery.of(context).size.width * 0.07, // 7% en escritorio
+        backgroundImage: selectedImage != null
+            ? FileImage(selectedImage!)
+            : NetworkImage(PLACEHOLDER_PFP) as ImageProvider,
+        child: selectedImage == null
+            ? Icon(Icons.camera_alt, size: 30.0, color: Colors.grey[800])
+            : null,
+      ),
+    ),
+  );
+}
 
   /* Cuando ya este en el perfil correcto abra alguna forma de guardar los valores cambiados incluidos la imagen de perfil si es que se ha cambiado o agregado, para ellos hay que usar el servicio storage para que aparte de guardar todos los datos tambien subamos la imagen en su carpeta correcta dentro del storage de firebase */
 

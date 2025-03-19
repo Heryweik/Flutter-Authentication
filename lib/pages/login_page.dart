@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:login_chat/config/responsive_designe.dart';
 import 'package:login_chat/consts.dart';
 import 'package:login_chat/services/alert_service.dart';
 import 'package:login_chat/services/auth_service.dart';
@@ -45,11 +46,41 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  /* Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset:
           false, // Para evitar que el teclado haga resize de la pantalla
       body: _buildUI(),
+    );
+  } */
+
+   Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset:
+          false, // Para evitar que el teclado haga resize de la pantalla
+      body: ResponsiveWidget(
+        // ResponsiveWidget para hacer la pantalla responsive
+        mobile: _buildMobileUI(),
+        tablet: _buildTabletUI(),
+        desktop: _buildDesktopUI(),
+      ),
+    );
+  }
+
+  Widget _buildMobileUI() { // Metodo para construir la UI en dispositivos móviles
+    return _buildUI();
+  }
+
+  Widget _buildTabletUI() { // Metodo para construir la UI en dispositivos tablet
+    return _buildUI();
+  }
+
+  Widget _buildDesktopUI() { // Metodo para construir la UI en dispositivos de escritorio
+    return Center(
+      child: SizedBox(
+        width: 500.0,
+        child: _buildUI(),
+      ),
     );
   }
 
