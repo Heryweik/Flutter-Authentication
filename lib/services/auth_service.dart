@@ -23,7 +23,7 @@ class AuthService {
         return true;
       }
     } catch (e) {
-      throw Exception("Error: $e");
+      print(e);
     }
 
     return false;
@@ -51,7 +51,7 @@ class AuthService {
         return true; // Al ponerlo en true en el archivo main se aplica la logica de que el usuario existe entonce lo redirige a la pantalla de inicio
       }
     } catch (e) {
-      throw Exception("Error: $e");
+      print(e);
     }
 
     return false;

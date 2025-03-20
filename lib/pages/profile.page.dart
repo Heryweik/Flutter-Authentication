@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:login_chat/config/colors.dart';
 import 'package:login_chat/config/responsive_designe.dart';
 import 'package:login_chat/consts.dart';
 import 'package:login_chat/services/media_service.dart';
@@ -154,6 +155,7 @@ Widget _pfpSelectionField() {
     },
     child: ResponsiveWidget( // ResponsiveWidget para hacer el campo responsive directamente en el widget
       mobile: CircleAvatar(
+        backgroundColor: AppColors.lightGray,
         radius: MediaQuery.of(context).size.width * 0.15, // 15% en móviles
         backgroundImage: selectedImage != null
             ? FileImage(selectedImage!) // Si hay una imagen seleccionada, muestra esa imagen

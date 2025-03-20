@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:login_chat/config/colors.dart';
 import 'package:login_chat/config/responsive_designe.dart';
 import 'package:login_chat/consts.dart';
 import 'package:login_chat/models/user_profile.dart';
@@ -8,6 +9,7 @@ import 'package:login_chat/services/alert_service.dart';
 import 'package:login_chat/services/auth_service.dart';
 import 'package:login_chat/services/database.service.dart';
 import 'package:login_chat/services/navigation_service.dart';
+import 'package:login_chat/widgets/custom_button_gradient.dart';
 import 'package:login_chat/widgets/custom_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -123,22 +125,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 .max, // MainAxisSize.max para que el Column tome el tamaño maximo
         mainAxisAlignment:
             MainAxisAlignment
-                .start, // MainAxisAlignment.start para alinear el texto al inicio
+                .center, // MainAxisAlignment.start para alinear el texto al inicio
         crossAxisAlignment:
             CrossAxisAlignment
-                .start, // CrossAxisAlignment.start para alinear el texto al inicio
+                .center, // CrossAxisAlignment.start para alinear el texto al inicio
         children: [
           Text(
-            "Let's get goind!",
+            "Regístrate",
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
-          ),
-          Text(
-            "register and account using the form below",
-            style: TextStyle(
-              fontSize: 15.0,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
-            ),
           ),
         ],
       ),
@@ -157,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
             CrossAxisAlignment.center, // Centra los elementos horizontalmente
         children: [
           // _pfpSelectionField(),
-          SizedBox(height: 20), // Espacio entre los elementos
+          SizedBox(height: 15), // Espacio entre los elementos
           CustomFormField(
             hintText: 'Enter your name',
             labelText: 'Name',
@@ -169,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
               });
             },
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           CustomFormField(
             hintText: 'Enter your email',
             labelText: 'Email',
@@ -181,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
               });
             },
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           CustomFormField(
             hintText: 'Enter your password',
             labelText: 'Password',
@@ -194,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
               });
             },
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           _registerButton(),
         ],
       ),
@@ -205,11 +199,8 @@ class _RegisterPageState extends State<RegisterPage> {
     return SizedBox(
       // SizedBox para limitar el tamaño del contenedor
       width: MediaQuery.sizeOf(context).width, // Toma el ancho de la pantalla
-      child: MaterialButton(
-        // MaterialButton para darle un estilo de botón
-        height:
-            MediaQuery.sizeOf(context).height *
-            0.07, // Toma el 5% de la pantalla
+      child: GradientButton(
+        text: "Register",
         onPressed: () async {
           // onPressed para manejar el evento de presionar el botón
 
@@ -247,8 +238,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 _navigationService.goBack(); // Aunque esto no es necesario se pone para que realmente se elemine la pantalla de registro y se muestre la de home sin problemas
                 _navigationService.pushReplacementNamed("/home"); // Navega a la ruta /home y reemplaza la ruta actual
               } else {
-                throw Exception("Unable to create account");
+                _alertService.showToast(
+                  text: 'Failed to register, Please try again',
+                  icon: Icons.error,
+                );
               }
+            } else {
+              _alertService.showToast(
+                text: 'Please fill all the fields',
+                icon: Icons.error,
+              );
             }
           } catch (e) {
             _alertService.showToast(
@@ -261,14 +260,6 @@ class _RegisterPageState extends State<RegisterPage> {
             isLoading = false; // Actualiza el estado de isLoading a false
           });
         },
-        color:
-            Theme.of(context)
-                .colorScheme
-                .primary, // Toma el color primario del tema, Theme se usa para acceder a los colores del tema
-        child: const Text(
-          'Register',
-          style: TextStyle(color: Colors.white, fontSize: 18.0),
-        ),
       ),
     );
   }
@@ -289,7 +280,7 @@ class _RegisterPageState extends State<RegisterPage> {
             },
             child: const Text(
               "Login",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w800),
+              style: TextStyle(color: AppColors.gradientEnd, fontWeight: FontWeight.w800),
             ),
           ),
         ],
