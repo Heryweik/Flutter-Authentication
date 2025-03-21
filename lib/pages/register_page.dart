@@ -36,9 +36,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool isLoading = false; // Variable para manejar el estado de carga
   String?
+  errorName, // Variable para guardar el error del nombre
   name,
+  errorEmail, // Variable para guardar el error del email
   email,
-  password; // Variables para guardar el email y la contraseña, el ? es para que puedan ser null
+  errorPassword, // Variables para guardar el errorde la contraseña
+  password; // Variables para guardar el nombre, email y la contraseña
 
   // Asi se inicializan los servicios en el constructor de la clase
   @override
@@ -157,9 +160,17 @@ class _RegisterPageState extends State<RegisterPage> {
             labelText: 'Name',
             prefixIcon: Icon(Icons.person),
             validationRegularExp: NAME_VALIDATION_REGEX,
+            errorText: errorName,
+            hasError: errorName != null,
             onSaved: (value) {
               setState(() {
                 name = value;
+
+                if (value != null && !NAME_VALIDATION_REGEX.hasMatch(value)) {
+                  errorName = 'Enter a valid name';
+                } else {
+                  errorName = null;
+                }
               });
             },
           ),
@@ -169,9 +180,17 @@ class _RegisterPageState extends State<RegisterPage> {
             labelText: 'Email',
             prefixIcon: Icon(Icons.email),
             validationRegularExp: EMAIL_VALIDATION_REGEX,
+            errorText: errorEmail,
+            hasError: errorEmail != null,
             onSaved: (value) {
               setState(() {
                 email = value;
+
+                if (value != null && !EMAIL_VALIDATION_REGEX.hasMatch(value)) {
+                  errorEmail = 'Enter a valid email';
+                } else {
+                  errorEmail = null;
+                }
               });
             },
           ),
@@ -181,10 +200,18 @@ class _RegisterPageState extends State<RegisterPage> {
             labelText: 'Password',
             prefixIcon: Icon(Icons.lock),
             validationRegularExp: PASSWORD_VALIDATION_REGEX,
+            errorText: errorPassword,
+            hasError: errorPassword != null,
             obscureText: true,
             onSaved: (value) {
               setState(() {
                 password = value;
+
+                if (value != null && !PASSWORD_VALIDATION_REGEX.hasMatch(value)) {
+                  errorPassword = 'Enter a valid password';
+                } else {
+                  errorPassword = null;
+                }
               });
             },
           ),

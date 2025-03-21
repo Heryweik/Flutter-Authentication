@@ -48,20 +48,33 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Se quita el banner de debug
       title: 'Viajú',
       theme: ThemeData(
-        // Usar la paleta de colores personalizada (Esto seria para usar la paleta pero con los nombres base de Flutter)
-        /* colorScheme: ColorScheme.light(
-          primary: AppColors.primary,
-          secondary: AppColors.secondary,
-          surface: AppColors.background,
-          error: AppColors.error,
-          onPrimary: Colors.white, // Texto en botones primarios
-          onSecondary: Colors.black, // Texto en botones secundarios
-        ), */
+        // Usar la paleta de colores personalizada
+        colorScheme: ColorScheme.light(
+          primary: AppColors.pantone3035C,
+          secondary: AppColors.pantone7408C,
+          surface: AppColors.offWhite,
+          error: AppColors.pantone485C,
+          onPrimary: AppColors.offWhite, // Texto en botones primarios
+          onSecondary: AppColors.softBlack, // Texto en botones secundarios
+        ),
+        useMaterial3: true, // 
+        primaryColor: AppColors.pantone3035C,
+        cardColor: AppColors.offWhite, // Para alertas, toasts o cards
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.offWhite,
+          foregroundColor: AppColors.softBlack, // Íconos y textos
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            color: AppColors.softBlack,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(color: AppColors.softBlack),
+        ),
 
         scaffoldBackgroundColor: AppColors.offWhite, // Fondo de las pantallas
 
         textTheme: GoogleFonts.montserratTextTheme(), // Google Fonts
-
       ),
       initialRoute:
           _authService.user == null

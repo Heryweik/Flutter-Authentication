@@ -31,9 +31,10 @@ class _LoginPageState extends State<LoginPage> {
   _navigationService; // navigationService para manejar la navegación
   late AlertService _alertService; // alertService para mostrar alertas
 
-  String?
-  email,
-  password; // Variables para guardar el email y la contraseña, el ? es para que puedan ser null
+  String? errorEmail, // Variable para guardar el error del email
+      email,
+      errorPassword, // Variables para guardar el errorde la contraseña
+      password; // Variables para guardar el email y la contraseña
 
   // Asi se inicializan los servicios en el constructor de la clase
   @override
@@ -92,20 +93,21 @@ class _LoginPageState extends State<LoginPage> {
           horizontal: 15.0,
           vertical: 20.0,
         ), // padding de toda la pantalla
-        child: Column(
-          children: [
-            _headerText(),
+        child: Center(
+          child: Column(
+            children: [
+              _headerText(),
 
-            // Centrando el formulario
-            Spacer(), // Spacer para ocupar el espacio restante
-            Align(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(child: _loginForm()),
-            ),
-            Spacer(), // Spacer para ocupar el espacio restante
-
-            _createAnAccountLink(),
-          ],
+              // Centrando el formulario
+              Spacer(), // Spacer para ocupar el espacio restante
+              Align(
+                alignment: Alignment.center,
+                child: SingleChildScrollView(child: _loginForm()),
+              ),
+              Spacer(), // Spacer para ocupar el espacio restante
+              _createAnAccountLink(),
+            ],
+          ),
         ),
       ),
     );
@@ -115,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       // SizedBox para limitar el tamaño del contenedor
       width: MediaQuery.sizeOf(context).width, // Toma el ancho de la pantalla
-      child: const Column(
+      child: Column(
         mainAxisSize:
             MainAxisSize
                 .max, // MainAxisSize.max para que el Column tome el tamaño maximo
@@ -126,9 +128,9 @@ class _LoginPageState extends State<LoginPage> {
             CrossAxisAlignment
                 .center, // CrossAxisAlignment.start para alinear el texto al inicio
         children: [
-          Text(
-            'Iniciar sesión',
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
+          Image(image: AssetImage('lib/assets/images/logo.png'),
+            width: 100,
+            height: 100,
           ),
         ],
       ),
@@ -150,39 +152,96 @@ class _LoginPageState extends State<LoginPage> {
                 .center, // CrossAxisAlignment.center para alinear los elementos al centro
         // Form para manejar el estado del formulario
         children: [
+          Text(
+            'Iniciar sesión',
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
+          ),
+          SizedBox(height: 15), // Espacio entre los elementos
           CustomFormField(
-            hintText: 'Enter your email',
-            labelText: 'Email',
+            hintText: 'Escribe tu correo',
+            labelText: 'Correo',
             prefixIcon: Icon(Icons.email),
             validationRegularExp: EMAIL_VALIDATION_REGEX,
+            // Muetsra un mensaje de error si el email no es valido
+            errorText: errorEmail,
+            hasError: errorEmail != null,
             onSaved: (value) {
               setState(() {
                 // setState para actualizar el estado de la variable email declarada arriba en la clase
                 email = value;
+
+                // Validar el email, si no es valido, muestra un mensaje de error
+                if (value != null && !EMAIL_VALIDATION_REGEX.hasMatch(value)) {
+                  errorEmail = 'Escribe un correo válido';
+                } else {
+                  errorEmail = null;
+                }
               });
             },
           ),
           SizedBox(height: 15), // Espacio entre los elementos
           CustomFormField(
-            hintText: 'Enter your password',
-            labelText: 'Password',
+            hintText: 'Escribe tu contraseña',
+            labelText: 'Contraseña',
             prefixIcon: Icon(Icons.lock),
             validationRegularExp: PASSWORD_VALIDATION_REGEX,
             obscureText: true,
+            // Muetsra un mensaje de error si la contraseña no es valida
+            errorText: errorPassword,
+            hasError: errorPassword != null,
             onSaved: (value) {
               setState(() {
                 // setState para actualizar el estado de la variable password declarada arriba en la clase
                 password = value;
+
+                // Validar la contraseña, si no es valida, muestra un mensaje de error
+                if (value != null &&
+                    !PASSWORD_VALIDATION_REGEX.hasMatch(value)) {
+                  errorPassword = 'Escribe una contraseña válida';
+                } else {
+                  errorPassword = null;
+                }
               });
             },
           ),
-          SizedBox(height: 15), // Espacio entre los elementos
+
+          SizedBox(height: 10), // Espacio entre los elementos
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '¿Olvidaste tu contraseña? ',
+                style: TextStyle(
+                  color: AppColors.softBlack,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              GestureDetector(
+                // GestureDetector para manejar el evento de presionar el texto
+                onTap: () {
+                  // onTap para manejar el evento de presionar el texto
+                  _navigationService.pushNamed(
+                    "/register",
+                  ); // Navega a la ruta /register
+                },
+                child: const Text(
+                  "Ayuda",
+                  style: TextStyle(
+                    color: AppColors.gradientEnd,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10), // Espacio entre los elementos
+
           _loginButton(),
 
           SizedBox(height: 10), // Espacio entre los elementos
           Text(
-            'Or login with',
-            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+            'O inicia sesión con',
+            style: TextStyle(color: AppColors.softBlack),
           ),
           SizedBox(height: 10), // Espacio entre los elementos
           // Botones de Google y Facebook
@@ -209,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                   // Tu acción aquí
                 },
               ),
-              
+
               SizedBox(height: 15), // Espacio entre los elementos
 
               IconButtonCustom(
@@ -233,7 +292,7 @@ class _LoginPageState extends State<LoginPage> {
       // SizedBox para limitar el tamaño del contenedor
       width: MediaQuery.sizeOf(context).width, // Toma el ancho de la pantalla
       child: GradientButton(
-        text: "Login",
+        text: "Iniciar sesión",
         onPressed: () async {
           // onPressed para manejar el evento de presionar el botón
           try {
@@ -247,25 +306,29 @@ class _LoginPageState extends State<LoginPage> {
               ); // Llama al método login del servicio AuthService, los signos de exclamación son para decirle al lenguaje que no puede ser null
 
               if (result) {
-                // Aqui podria ir una alerta de que el login fue exitoso
+                _alertService.showToast(
+                  text: 'Inicio de sesión exitoso',
+                  icon: Icons.check,
+                ); // Muestra un mensaje de éxito
+
                 _navigationService.pushReplacementNamed(
                   "/home",
                 ); // Navega a la ruta /home y reemplaza la ruta actual
               } else {
                 _alertService.showToast(
-                  text: 'Failed to login, Please try again',
+                  text: 'Error al iniciar sesión',
                   icon: Icons.error,
                 ); // Muestra un mensaje de error
               }
             } else {
               _alertService.showToast(
-                text: 'Please enter valid data',
+                text: 'Por favor ingresa tus credenciales',
                 icon: Icons.error,
               ); // Muestra un mensaje de error
             }
           } catch (e) {
             _alertService.showToast(
-              text: "An error occurred, please try again",
+              text: "Un error ocurrió, por favor intenta de nuevo",
               icon: Icons.error,
             );
           }
@@ -275,31 +338,61 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _createAnAccountLink() {
-    return Expanded(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const Text("Don't have an account? "),
-          GestureDetector(
-            // GestureDetector para manejar el evento de presionar el texto
-            onTap: () {
-              // onTap para manejar el evento de presionar el texto
-              _navigationService.pushNamed(
-                "/register",
-              ); // Navega a la ruta /register
-            },
-            child: const Text(
-              "Sing up",
-              style: TextStyle(
-                color: AppColors.gradientEnd,
-                fontWeight: FontWeight.w800,
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          children: [
+            const Text("¿No tienes una cuenta? "),
+            GestureDetector(
+              // GestureDetector para manejar el evento de presionar el texto
+              onTap: () {
+                // onTap para manejar el evento de presionar el texto
+                _navigationService.pushNamed(
+                  "/register",
+                ); // Navega a la ruta /register
+              },
+              child: const Text(
+                "Regístrate aquí",
+                style: TextStyle(
+                  color: AppColors.gradientEnd,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        SizedBox(height: 15), // Espacio entre los elementos
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            const Text(
+              "Al registrarse, acepta nuestros ",
+              style: TextStyle(fontSize: 10),
+            ),
+            GestureDetector(
+              // GestureDetector para manejar el evento de presionar el texto
+              onTap: () {
+                // onTap para manejar el evento de presionar el texto
+                _navigationService.pushNamed(
+                  "/register",
+                ); // Navega a la ruta /register
+              },
+              child: const Text(
+                "Términos & Política de Privacidad",
+                style: TextStyle(
+                  color: AppColors.gradientEnd,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
