@@ -23,7 +23,7 @@ class IconButtonCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.sizeOf(context).height * 0.06, // 6% de la altura de la pantalla
+      height: MediaQuery.sizeOf(context).height * 0.05, // 6% de la altura de la pantalla
       width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed,

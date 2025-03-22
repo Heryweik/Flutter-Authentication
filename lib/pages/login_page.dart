@@ -87,27 +87,24 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildUI() {
     return SafeArea(
-      // SafeArea para evitar que el contenido se superponga con la barra de estado, barra de navegación y barra de notificaciones
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-          vertical: 20.0,
-        ), // padding de toda la pantalla
-        child: Center(
-          child: Column(
-            children: [
-              _headerText(),
+        padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10.0),
+        child: Column(
+          children: [
+            _headerText(),
 
-              // Centrando el formulario
-              Spacer(), // Spacer para ocupar el espacio restante
-              Align(
-                alignment: Alignment.center,
-                child: SingleChildScrollView(child: _loginForm()),
-              ),
-              Spacer(), // Spacer para ocupar el espacio restante
-              _createAnAccountLink(),
-            ],
-          ),
+            SizedBox(height: 15), // Espacio entre los elementos
+
+            // El espacio disponible para el formulario
+            Expanded( // Expanded para que el contenedor tome el espacio disponible
+              child: Center(child: SingleChildScrollView(child: _loginForm())),
+            ),
+            // Otra forma de tomar espacio es con spacer
+            //Spacer(),
+
+            SizedBox(height: 15), // Espacio entre los elementos
+            _createAnAccountLink(),
+          ],
         ),
       ),
     );
@@ -128,7 +125,8 @@ class _LoginPageState extends State<LoginPage> {
             CrossAxisAlignment
                 .center, // CrossAxisAlignment.start para alinear el texto al inicio
         children: [
-          Image(image: AssetImage('lib/assets/images/logo.png'),
+          Image(
+            image: AssetImage('lib/assets/images/logo.png'),
             width: 100,
             height: 100,
           ),
@@ -206,8 +204,13 @@ class _LoginPageState extends State<LoginPage> {
           ),
 
           SizedBox(height: 10), // Espacio entre los elementos
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment:
+                WrapAlignment
+                    .center, // WrapAlignment.center para alinear los elementos al centro
+            crossAxisAlignment:
+                WrapCrossAlignment
+                    .center, // WrapCrossAlignment.center para alinear los elementos al centro
             children: [
               Text(
                 '¿Olvidaste tu contraseña? ',
@@ -366,8 +369,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
         SizedBox(height: 15), // Espacio entre los elementos
         Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment:
+              WrapAlignment
+                  .center, // WrapAlignment.center para alinear los elementos al centro
+          crossAxisAlignment:
+              WrapCrossAlignment
+                  .center, // WrapCrossAlignment.center para alinear los elementos al centro
           children: [
             const Text(
               "Al registrarse, acepta nuestros ",

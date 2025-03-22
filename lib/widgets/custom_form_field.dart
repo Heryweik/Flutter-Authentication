@@ -5,6 +5,7 @@ class CustomFormField extends StatelessWidget {
   final String hintText;
   final String labelText; // No es necesario
   final Icon? prefixIcon;
+  final Widget? suffixIcon; // ícono al final (como el ojito)
   //final double height;
   final RegExp validationRegularExp; // RegExp para validar el campo
   final bool obscureText; // Para ocultar el texto
@@ -18,33 +19,27 @@ class CustomFormField extends StatelessWidget {
     required this.hintText,
     required this.labelText, // No es necesario
     this.prefixIcon,
+    this.suffixIcon,
     //required this.height,
     required this.validationRegularExp,
     this.obscureText = false,
     required this.onSaved,
-    this.errorText, 
+    this.errorText,
     this.hasError = false,
   }); // El required es para que sea obligatorio, esta parte funciona como las props de React
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           // SizedBox para limitar el tamaño del contenedor
-          height: MediaQuery.sizeOf(context).height * 0.06, // Altura del contenedor
+          height:
+              MediaQuery.sizeOf(context).height * 0.05, // Altura del contenedor
           child: TextFormField(
             onSaved: onSaved, // Guarda el valor del campo
             obscureText: obscureText, // Para ocultar el texto
-            /* validator: (value) {
-              // Validator para validar el valor del campo, usando una expresión regular
-              if (value != null && validationRegularExp.hasMatch(value)) {
-                return null;
-              }
-              return 'enter a valid ${labelText.toLowerCase()}'; // Si no se cumple la expresión regular, retorna un mensaje de error
-            }, */
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -52,14 +47,28 @@ class CustomFormField extends StatelessWidget {
               labelText: labelText,
               hintText: hintText,
               prefixIcon: prefixIcon,
-              isDense: false, // Hace el input más compacto
+              suffixIcon: suffixIcon, // Aquí se agrega el ojito u otro ícono
+              contentPadding: const EdgeInsets.fromLTRB( // Se puso paddings independientes porque con el padding de abajo se rompía el diseño
+                20, // left
+                10, // top
+                20, // right
+                0, // bottom
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(100)),
-                borderSide: BorderSide(color: hasError ? AppColors.pantone485C : AppColors.pantone3035C, width: 1),
+                borderSide: BorderSide(
+                  color:
+                      hasError ? AppColors.pantone485C : AppColors.pantone3035C,
+                  width: 1,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(100)),
-                borderSide: BorderSide(color: hasError ? AppColors.pantone485C : AppColors.pantone3035C, width: 2),
+                borderSide: BorderSide(
+                  color:
+                      hasError ? AppColors.pantone485C : AppColors.pantone3035C,
+                  width: 2,
+                ),
               ),
             ),
           ),
@@ -69,7 +78,10 @@ class CustomFormField extends StatelessWidget {
             padding: const EdgeInsets.only(left: 12, top: 4),
             child: Text(
               errorText!,
-              style: const TextStyle(color: AppColors.pantone485C, fontSize: 12),
+              style: const TextStyle(
+                color: AppColors.pantone485C,
+                fontSize: 12,
+              ),
             ),
           ),
       ],

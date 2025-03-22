@@ -25,7 +25,7 @@ class GradientButton extends StatelessWidget {
         ),
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
-      height: MediaQuery.sizeOf(context).height * 0.06, // 6% de la altura de la pantalla
+      height: MediaQuery.sizeOf(context).height * 0.05, // 6% de la altura de la pantalla
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
