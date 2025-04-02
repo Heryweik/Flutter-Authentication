@@ -17,6 +17,13 @@ Future<void> setUpFirebase() async {
 
 Future<void> registerServices() async {
   final GetIt getIt = GetIt.instance; // GetIt.instance es una instancia global de GetIt
+
+  // Se ponen primero los servicios que otro servicios usaran
+  
+  getIt.registerSingleton<DatabaseService>( // Registra el servicio DatabaseService
+    DatabaseService()
+  );
+
   getIt.registerSingleton<AuthService>(
     AuthService()
   ); // Registra el servicio AuthService, si no se hace esto, no se puede usar el servicio en toda la aplicación
@@ -38,7 +45,4 @@ Future<void> registerServices() async {
     StorageService()
   );
 
-  getIt.registerSingleton<DatabaseService>( // Registra el servicio DatabaseService
-    DatabaseService()
-  );
 }

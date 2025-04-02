@@ -310,6 +310,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   userProfile: UserProfile(
                     uid: _authService.user!.uid,
                     name: name!,
+                    email: email!,
                     //pfpURL: pfpURL,
                   ),
                 );

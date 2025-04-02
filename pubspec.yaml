@@ -54,6 +54,8 @@ dependencies:
   path: ^1.9.1
   # SVG
   flutter_svg: ^2.0.17
+  # Google
+  google_sign_in: ^6.3.0
 
 dev_dependencies:
   flutter_test:

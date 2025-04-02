@@ -94,14 +94,14 @@ class _LoginPageState extends State<LoginPage> {
             _headerText(),
 
             SizedBox(height: 15), // Espacio entre los elementos
-
             // El espacio disponible para el formulario
-            Expanded( // Expanded para que el contenedor tome el espacio disponible
+            Expanded(
+              // Expanded para que el contenedor tome el espacio disponible
               child: Center(child: SingleChildScrollView(child: _loginForm())),
             ),
+
             // Otra forma de tomar espacio es con spacer
             //Spacer(),
-
             SizedBox(height: 15), // Espacio entre los elementos
             _createAnAccountLink(),
           ],
@@ -267,8 +267,21 @@ class _LoginPageState extends State<LoginPage> {
                 iconPath: 'lib/assets/icons/google.svg',
                 backgroundColor: AppColors.lightGray,
                 textColor: AppColors.softBlack,
-                onPressed: () {
-                  // Tu acción aquí
+                onPressed: () async {
+                  bool success = await _authService.signInWithGoogle();
+                  if (success) {
+                    _navigationService.pushReplacementNamed("/home");
+                    _alertService.showToast(
+                      text: 'Inicio de sesión exitoso',
+                      icon: Icons.check,
+                    );
+                  } else {
+                    // Puede mostrar un error aquí si lo desea
+                    _alertService.showToast(
+                      text: 'Error al iniciar sesión con Google',
+                      icon: Icons.error,
+                    );
+                  }
                 },
               ),
 
